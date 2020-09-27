@@ -1,5 +1,4 @@
 import cv2
-from PIL import Image
 
 cv = cv2.VideoCapture('1.mov')  # 读入视频文件，命名cv
 
@@ -37,25 +36,20 @@ def getColorArr(colorArr):
   index = 1
   # 遍历行数据
   for rowrgb in colorArr:
-    for rgb in rowrgb:
-      print('%s/%s' % (index, len(rowrgb) * len(colorArr)))
+    for rgb in colorArr:
+      print('%s/%s' % (index, len(colorArr) * len(rowrgb)))
       index += 1
       for value in rgb:
         strValue = str(value)
-        if (strValue != temp3):
+        # if (strValue != temp3):
           # 四级临时
-          temp3 = strValue
-          temp2str += strValue
-          temp2.append(temp3)
+        temp3 = strValue
+        temp2str += strValue
+        temp2.append(temp3)
       temp3 = ''
       if (tempstr != temp2str):
         tempstr = temp2str
-        # print('**************')
-        # print(temp2)
         temp2.insert(0, num)
-        # print(rgb)
-        # print('----------------')
-        # print(temp2)
         temp.append(temp2)
         num = 1
       else:
@@ -70,10 +64,17 @@ while (rval):  # 循环读取视频帧
   i += 1
   print(i)
   if (i == 1):
-    print(getColorArr(frame))
+    # 打开一个文件
+    fo = open("output.txt", "w")
+    fo.write(str(getColorArr(frame)))
+    
+    # 关闭打开的文件
+    fo.close()
+    
   # cv2.imwrite('./output/{}.jpg'.format(i), frame)  # 存储为图像
   cv2.waitKey(1)
 
 cv.release()
 cv2.destroyAllWindows()
+
 print(outPutInfo)
