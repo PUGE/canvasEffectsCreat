@@ -36,16 +36,18 @@ def getColorArr(colorArr):
   index = 1
   # 遍历行数据
   for rowrgb in colorArr:
-    for rgb in colorArr:
+    for rgb in rowrgb:
       print('%s/%s' % (index, len(colorArr) * len(rowrgb)))
       index += 1
+      if (index > 1000):
+        return temp
       for value in rgb:
         strValue = str(value)
-        # if (strValue != temp3):
+        if (strValue != temp3):
           # 四级临时
-        temp3 = strValue
-        temp2str += strValue
-        temp2.append(temp3)
+          temp3 = strValue
+          temp2str += strValue
+          temp2.append(temp3)
       temp3 = ''
       if (tempstr != temp2str):
         tempstr = temp2str
@@ -58,23 +60,21 @@ def getColorArr(colorArr):
       temp2 = []
   return temp
 
+# 打开一个文件
+fo = open("output.txt", "w")
 i = 0
 while (rval):  # 循环读取视频帧
   rval, frame = cv.read()
   i += 1
   print(i)
   if (i == 1):
-    # 打开一个文件
-    fo = open("output.txt", "w")
     fo.write(str(getColorArr(frame)))
-    
-    # 关闭打开的文件
-    fo.close()
     
   # cv2.imwrite('./output/{}.jpg'.format(i), frame)  # 存储为图像
   cv2.waitKey(1)
 
 cv.release()
 cv2.destroyAllWindows()
-
+# 关闭打开的文件
+fo.close()
 print(outPutInfo)
